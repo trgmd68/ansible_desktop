@@ -32,5 +32,23 @@
       key: "/org/gnome/desktop/background/picture-options"
       value: "'zoom'"
 
+  - name: add ansible user
+    user:
+      name: velociraptor
+      system: yes
 
+  - name: set up sudo for ansible user
+    copy:
+      src: files/sudoer_velociraptor
+      dest: /etc/sudoers.d/velociraptor
+      owner: root
+      group: root
+      mode: 0440
+
+  - name: add ansible-pull cron job
+    cron:
+      name: ansible auto-provision
+      user: velociraptor
+      minute: "*/15"
+      job: ansible-pull -o -U https://github.com/trgmd68/ansible_desktop.git
 
