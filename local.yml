@@ -12,6 +12,7 @@
         - vim-nox
         - dconf-cli
         - python3-psutil
+        - mc
 
   - name: copy wallpaper file
     copy:
