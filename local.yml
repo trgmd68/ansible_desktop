@@ -3,6 +3,13 @@
   connection: local
   become: true
 
+  pre_tasks:
+  - name: pre-run | update package cache (debian, etc)
+    tags: always
+    apt: update_cache=yes
+    changed_when: False
+    when: ansible_distribution in ["Debian", "Ubuntu"]
+
   tasks:
   - name: install packages
     package:
@@ -52,4 +59,11 @@
       user: velociraptor
       minute: "*/15"
       job: ansible-pull -o -U https://github.com/trgmd68/ansible_desktop.git
+
+  - name: cleanup package cache (debian and ubuntu)
+    tags: always
+    apt:
+      autoclean: yes
+    changed_when: false
+    when: ansible_distribution in ["Debian", "Ubuntu"]
 
