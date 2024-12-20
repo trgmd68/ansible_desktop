@@ -53,13 +53,6 @@
       group: root
       mode: 0440
 
-  - name: add ansible-pull cron job
-    cron:
-      name: ansible auto-provision
-      user: velociraptor
-      minute: "*/15"
-      job: ansible-pull -o -U https://github.com/trgmd68/ansible_desktop.git
-
   - name: cleanup package cache (debian and ubuntu)
     tags: always
     apt:
